@@ -1,15 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
 
 import { useEffect } from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 
 function App() {
 	const [response, setResponse] = useState('');
 
-	useEffect(() => {
-		fetch('/covid-19?startCreateDt=20200309&endCreateDt=20200315&pageNo=1&numOfRows=10')
-			.then((response) => response.json())
-			.then((response) => setResponse(response));
+	useEffect(async () => {
+		async function fetchData() {
+			await axios({
+				method: 'GET',
+				url: `/parse?searchDate=2022-04-16`,
+			}).then((response) => setResponse(response));
+		}
+		fetchData();
 	}, []);
 
 	console.log('after useEffect? ', response);
