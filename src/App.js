@@ -25,7 +25,6 @@ function App() {
 	const handleChange = async (e) => {
 		const searchDate = e.target.value;
 
-		console.log('in handleChange() date: ', searchDate);
 		await axios({
 			method: 'GET',
 			url: `/parse?searchDate=${searchDate}`,
@@ -33,7 +32,6 @@ function App() {
 			setResponse(res);
 			setDate(searchDate);
 		});
-		console.log('in handleChange() response : ', response);
 	};
 
 	const deathCount = response?.data?.payload?.deathCount.toLocaleString();
@@ -45,13 +43,14 @@ function App() {
 			<div className='mainText'>코로나 19 감염 현황 조회</div>
 			<br />
 			<label>
-				검색 날짜:
+				검색 날짜 :{' '}
 				<input
 					onChange={(e) => {
 						handleChange(e);
 					}}
 					type='date'
 					value={date}
+					className='inputDate'
 				/>
 			</label>
 			<div className='smallText'>
