@@ -7,30 +7,32 @@ import axios from 'axios';
 import * as dayjs from 'dayjs';
 
 function App() {
-	// let response;
 	const [response, setResponse] = useState('');
-	let date;
-	// let date = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
-	// const [date, setDate] = useState(dayjs().subtract(1, 'day').format('YYYY-MM-DD'));
+	const [date, setDate] = useState(dayjs().subtract(1, 'day').format('YYYY-MM-DD'));
 
 	useEffect(async () => {
-		date = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
+		const searchDate = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
 
 		await axios({
 			method: 'GET',
-			url: `/parse?searchDate=${date}`,
-		}).then((res) => setResponse(res));
+			url: `/parse?searchDate=${searchDate}`,
+		}).then((res) => {
+			setResponse(res);
+			setDate(searchDate);
+		});
 	}, []);
 
 	const handleChange = async (e) => {
-		date = e.target.value;
-		// setDate(e.target.value);
+		const searchDate = e.target.value;
 
-		console.log('in handleChange() date: ', date);
+		console.log('in handleChange() date: ', searchDate);
 		await axios({
 			method: 'GET',
-			url: `/parse?searchDate=${date}`,
-		}).then((res) => setResponse(res));
+			url: `/parse?searchDate=${searchDate}`,
+		}).then((res) => {
+			setResponse(res);
+			setDate(searchDate);
+		});
 		console.log('in handleChange() response : ', response);
 	};
 
@@ -49,7 +51,7 @@ function App() {
 						handleChange(e);
 					}}
 					type='date'
-					value={date ?? dayjs().subtract(1, 'day').format('YYYY-MM-DD')}
+					value={date}
 				/>
 			</label>
 			<div className='smallText'>
